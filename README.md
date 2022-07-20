@@ -1,5 +1,5 @@
-# microservice-fn-py [![CircleCI](https://badgen.net/circleci/github/SFDigitalServices/microservice-fn-py/main)](https://circleci.com/gh/SFDigitalServices/microservice-fn-py) [![Coverage Status](https://coveralls.io/repos/github/SFDigitalServices/microservice-fn-py/badge.svg?branch=main)](https://coveralls.io/github/SFDigitalServices/microservice-fn-py?branch=main)
-Azure serverless python function microservice template
+# microservice-fn-py [![CircleCI](https://badgen.net/circleci/github/SFDigitalServices/pts-microservice-fn-py/main)](https://circleci.com/gh/SFDigitalServices/pts-microservice-fn-py) [![Coverage Status](https://coveralls.io/repos/github/SFDigitalServices/pts-microservice-fn-py/badge.svg?branch=main)](https://coveralls.io/github/SFDigitalServices/pts-microservice-fn-py?branch=main)
+Permit Tracking System (PTS) microservice with Azure serverless python function
 
 ## `api/status/http`
 Query http status of the serverless function.
