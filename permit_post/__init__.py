@@ -21,10 +21,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "Access-Control-Allow-Origin": "*"
         }
         if req.get_body() and len(req.get_body()):
-            response.status_code = 202
+            response.status_code = 200
 
             # pylint: disable=protected-access
-            response._content = b'"202 Accepted POST"'
+            response._content = b'"200 Accepted POST"'
         else:
             response.status_code = 200
 

@@ -34,7 +34,7 @@ def test_permit_post_function_other():
     # Call the function.
     resp = main(req)
 
-    assert resp.status_code == 202
+    assert resp.status_code == 200
 
 def test_permit_post_function_request_error():
     """ test_permit_post_function_request_error error """
