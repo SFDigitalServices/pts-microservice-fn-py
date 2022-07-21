@@ -10,7 +10,8 @@ import azure.functions as func
 from requests.models import Response
 from shared_code.common import func_json_response
 
-def main(_req: func.HttpRequest) -> func.HttpResponse:
+#pylint: disable=unused-argument
+def main(req: func.HttpRequest) -> func.HttpResponse:
     """ main function for permit_get """
     logging.info('Permit GET processed a request.')
 
