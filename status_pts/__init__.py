@@ -29,6 +29,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             cns = os.environ.get('PTS_CONNECTSTRING')
 
             lib_dir = os.environ.get('ORACLE_LIB_DIR')
+            print(lib_dir)
             oracledb.init_oracle_client(lib_dir)
             with oracledb.connect(user=usr, password=pwd, dsn=cns) as connection:
                 with connection.cursor() as cursor:
