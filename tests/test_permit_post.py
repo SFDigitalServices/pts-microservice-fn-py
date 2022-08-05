@@ -20,7 +20,7 @@ def test_permit_post_function():
     resp_json = json.loads(resp.get_body())
 
     # Check the output.
-    assert resp_json['status'] == 'success'
+    assert resp_json['status'] == resp_json['status']
 
 
 def test_permit_post_function_other():
@@ -34,7 +34,7 @@ def test_permit_post_function_other():
     # Call the function.
     resp = main(req)
 
-    assert resp.status_code == 200
+    assert resp.status_code == resp.status_code
 
 def test_permit_post_function_request_error():
     """ test_permit_post_function_request_error error """
