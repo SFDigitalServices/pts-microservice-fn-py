@@ -54,31 +54,34 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 "P_CONTACT2_EMAIL_ADDRESS",
                 "P_CONTACT2_PHONE_NUMBER",
                 "P_CONTACT2_LICENSE_NUMBER",
-                "P_CONTACT2_ROLE"
+                "P_CONTACT2_ROLE",
+                "P_STATUS",
+                "P_MSG",
+                "P_APP_NUM",
+                "P_FORMIO"
             ]
-            params = []
-            for field in sp_gen_permit:
-                value = req_json[field] if field in req_json else ''
-                params.append(value)
 
             connection = get_oracle_connection()
             with connection.cursor() as cursor:
-                p_status = cursor.var(str)
-                p_msg = cursor.var(str)
-                p_app_num = cursor.var(str)
-                params.append(p_status)
-                params.append(p_msg)
-                params.append(p_app_num)
+                data_json =  req_json
+                data_json["P_STATUS"] = cursor.var(str)
+                data_json["P_MSG"] = cursor.var(str)
+                data_json["P_APP_NUM"] = cursor.var(str)
+
+                params = []
+                for field in sp_gen_permit:
+                    value = data_json[field] if field in data_json else ''
+                    params.append(value)
                 #bool_result = cursor.callfunc("pts.sp_gen_permit", int, params)
                 #print(bool_result)
                 cursor.callproc("pts.sp_gen_permit", params)
-                print(p_status.getvalue())
-                print(p_msg.getvalue())
-                print(p_app_num.getvalue())
+                print("p_status: " + str(data_json["P_STATUS"].getvalue()))
+                print("p_msg: " + str(data_json["P_MSG"].getvalue()))
+                print("p_app_num: " + str(data_json["P_APP_NUM"].getvalue()))
 
-                if p_app_num.getvalue():
+                if data_json["P_APP_NUM"].getvalue():
                     response.status_code = 200
-                    out = p_app_num.getvalue()
+                    out = data_json["P_APP_NUM"].getvalue()
 
             print(out)
         else:
