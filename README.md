@@ -13,6 +13,10 @@ $ curl https://<host>/api/status/http
 ```
 
 ## Deployment notes
+
+### Oracle Instant Client package dependency
+`libaio1` package is required. If needed install via SSH `apt-get install libaio1`
+
 #### :warning: [Linux Consumption] Successful slot swaps automatically reverted after a few minutes :warning:
 DO NOT USE "SWAP" option until [issue](https://github.com/Azure/azure-functions-host/issues/7336) is resolved.   
 see more at: https://github.com/Azure/azure-functions-host/issues/7336
