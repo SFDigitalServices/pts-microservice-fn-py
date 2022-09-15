@@ -12,6 +12,23 @@ $ curl https://<host>/api/status/http
 {"status": "success", "data": {"message": "200 OK"}}
 ```
 
+## `api/complaint`
+GET complaint based on AVS address id
+
+### Query
+OKAY
+```
+$ curl --request GET 'http://<host>/api/complaint?avs_address_id=12345' 
+
+{"status": "success", "data": {"out": {"P_STATUS": "OKAY", "P_MSG": "No Active Complaints Found"}}}
+```
+ERROR
+```
+$ curl --request GET 'http://<host>/api/complaint?avs_address_id=12345' 
+
+{"status": "success", "data": {"out": {"P_STATUS": "ERROR", "P_MSG": "|Active complaint found 100000001|Active complaint found 100000002|Active complaint found 100000003"}}}
+```
+
 ## Deployment notes
 
 ### Oracle Instant Client package dependency
