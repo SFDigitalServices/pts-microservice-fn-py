@@ -1,6 +1,9 @@
 {
     "status": "success",
     "data": {
-        "message": "ERROR Application not found"
+        "out": {
+            "P_STATUS": "ERROR",
+            "P_MSG": "Application not found"
+        }
     }
 }

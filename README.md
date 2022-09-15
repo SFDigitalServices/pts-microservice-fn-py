@@ -11,6 +11,19 @@ $ curl https://<host>/api/status/http
 
 {"status": "success", "data": {"message": "200 OK"}}
 ```
+## `api/
+PUT Blubeam Project ID into Permit Application
+```
+$ curl --request PUT 'https://<host>/api/permit/bluebeam' 
+--header 'Content-Type: application/json' 
+--data-raw '{
+    "P_APPLICATION_NUMBER": 1234567890,
+    "P_BLUEBEAM_PROJ_NO": "111-111-111"
+}'
+
+{"status": "success", "data": {"out": {"P_STATUS": "SUCCESS", "P_MSG": "Application has been updated"}}}
+```
+
 
 ## `api/complaint`
 GET complaint based on AVS address id
@@ -18,13 +31,13 @@ GET complaint based on AVS address id
 ### Query
 OKAY
 ```
-$ curl --request GET 'http://<host>/api/complaint?avs_address_id=12345' 
+$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345' 
 
 {"status": "success", "data": {"out": {"P_STATUS": "OKAY", "P_MSG": "No Active Complaints Found"}}}
 ```
 ERROR
 ```
-$ curl --request GET 'http://<host>/api/complaint?avs_address_id=12345' 
+$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345' 
 
 {"status": "success", "data": {"out": {"P_STATUS": "ERROR", "P_MSG": "|Active complaint found 100000001|Active complaint found 100000002|Active complaint found 100000003"}}}
 ```

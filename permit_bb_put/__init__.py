@@ -9,6 +9,7 @@ import azure.functions as func
 from requests.models import Response
 from shared_code.common import func_json_response
 from shared_code.oracle import get_oracle_connection
+from shared_code.pts import get_pts_out
 
 #pylint: disable=too-many-locals
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -19,6 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     try:
         response = Response()
+        json_root = "message"
         out = None
         headers = {
             "Access-Control-Allow-Origin": "*"
@@ -45,14 +47,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 for field in sp_gen_permit:
                     value = data_json[field] if field in data_json else ''
                     params.append(value)
-                #bool_result = cursor.callfunc("pts.sp_gen_permit", int, params)
-                #print(bool_result)
+
                 cursor.callproc("pts.sp_ds_update_bluebeamprj", params)
                 print("p_status: " + str(data_json["P_STATUS"].getvalue()))
                 print("p_msg: " + str(data_json["P_MSG"].getvalue()))
 
                 if data_json["P_STATUS"].getvalue():
-                    out = data_json["P_STATUS"].getvalue() + " " + data_json["P_MSG"].getvalue()
+                    json_root = "out"
+                    out = get_pts_out(data_json)
 
             print(out)
         else:
@@ -60,7 +62,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
             out = "200 OK PUT"
 
-        return func_json_response(response, headers, "message", out)
+        return func_json_response(response, headers, json_root, out)
 
     #pylint: disable=broad-except
     except Exception as err:

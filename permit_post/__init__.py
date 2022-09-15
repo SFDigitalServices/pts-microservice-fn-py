@@ -9,6 +9,7 @@ import azure.functions as func
 from requests.models import Response
 from shared_code.common import func_json_response
 from shared_code.oracle import get_oracle_connection
+from shared_code.pts import get_pts_out
 
 #pylint: disable=too-many-locals
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -20,6 +21,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     try:
         response = Response()
         out = None
+        json_root = "message"
         headers = {
             "Access-Control-Allow-Origin": "*"
         }
@@ -81,7 +83,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                 if data_json["P_APP_NUM"].getvalue():
                     response.status_code = 200
-                    out = data_json["P_APP_NUM"].getvalue()
+                    json_root = "out"
+                    out = get_pts_out(data_json)
+                    out["P_APP_NUM"] = data_json["P_APP_NUM"].getvalue()
 
             print(out)
         else:
@@ -90,7 +94,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             # pylint: disable=protected-access
             response._content = b'"200 OK POST"'
 
-        return func_json_response(response, headers, "message", out)
+        return func_json_response(response, headers, json_root, out)
 
     #pylint: disable=broad-except
     except Exception as err:

@@ -9,6 +9,7 @@ import azure.functions as func
 from requests.models import Response
 from shared_code.common import func_json_response
 from shared_code.oracle import get_oracle_connection
+from shared_code.pts import get_pts_out
 
 #pylint: disable=too-many-locals
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -51,10 +52,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                 if data_json["P_STATUS"].getvalue():
                     json_root = "out"
-                    out = {
-                            "P_STATUS": data_json["P_STATUS"].getvalue(),
-                            "P_MSG": data_json["P_MSG"].getvalue()
-                            }
+                    out = get_pts_out(data_json)
 
             print(out)
         else:
