@@ -9,6 +9,7 @@ import oracledb
 import azure.functions as func
 from requests.models import Response
 from shared_code.common import func_json_response
+from shared_code.oracle import get_oracle_connection
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     """ main function for status/pts """
@@ -24,22 +25,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             response = requests.get('https://ifconfig.me')
             out = str(response.text)
         else:
-            usr = os.environ.get('PTS_USERNAME')
-            pwd = os.environ.get('PTS_PASSWORD')
-            cns = os.environ.get('PTS_CONNECTSTRING')
-
-            lib_dir = os.environ.get('ORACLE_LIB_DIR')
-            print(lib_dir)
-            oracledb.init_oracle_client(lib_dir)
-            with oracledb.connect(user=usr, password=pwd, dsn=cns) as connection:
-                with connection.cursor() as cursor:
-                    print(oracledb.clientversion())
-                    sql = """select sysdate from dual"""
-                    for rtn in cursor.execute(sql):
-                        print(rtn)
-                        if rtn:
-                            response.status_code = 200
-                            out = "200 OK"
+            connection = get_oracle_connection()
+            with connection.cursor() as cursor:
+                print(oracledb.clientversion())
+                sql = """select sysdate from dual"""
+                for rtn in cursor.execute(sql):
+                    print(rtn)
+                    if rtn:
+                        response.status_code = 200
+                        out = "200 OK"
 
         return func_json_response(response, headers, "message", out)
 

@@ -28,7 +28,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         if req.params.get('avs_address_id'):
             response.status_code = 200
-            sp_gen_permit = [
+            sp_param = [
                 "P_AVS_ADDRESS_ID",
                 "P_STATUS",
                 "P_MSG"
@@ -42,7 +42,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 data_json["P_MSG"] = cursor.var(str)
 
                 params = []
-                for field in sp_gen_permit:
+                for field in sp_param:
                     value = data_json[field] if field in data_json else ''
                     params.append(value)
 
