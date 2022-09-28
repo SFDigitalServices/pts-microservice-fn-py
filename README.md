@@ -11,7 +11,23 @@ $ curl https://<host>/api/status/http
 
 {"status": "success", "data": {"message": "200 OK"}}
 ```
-## `api/
+
+## `api/status/pts`
+Query http status of PTS.
+
+### Query
+Example
+```
+$ curl https://<host>/api/status/pts
+
+{"status": "success", "data": {"message": "200 OK"}}
+```
+
+
+## `api/permit`
+
+
+## `/api/permit/bluebeam`
 PUT Blubeam Project ID into Permit Application
 ```
 $ curl --request PUT 'https://<host>/api/permit/bluebeam' 
@@ -44,7 +60,12 @@ $ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345'
 
 ## Deployment notes
 
-### Oracle Instant Client package dependency
+### Oracle Instant Client 
+
+#### driver download
+`https://www.oracle.com/cis/database/technologies/instant-client/downloads.html`
+
+#### package dependency
 `libaio1` package is required. If needed install via SSH `apt-get install libaio1`
 
 #### :warning: [Linux Consumption] Successful slot swaps automatically reverted after a few minutes :warning:
