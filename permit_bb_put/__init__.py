@@ -30,7 +30,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             response.status_code = 200
             req_json = req.get_json()
 
-            sp_gen_permit = [
+            sp_param = [
                 "P_APPLICATION_NUMBER",
                 "P_BLUEBEAM_PROJ_NO",
                 "P_STATUS",
@@ -44,7 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 data_json["P_MSG"] = cursor.var(str)
 
                 params = []
-                for field in sp_gen_permit:
+                for field in sp_param:
                     value = data_json[field] if field in data_json else ''
                     params.append(value)
 
