@@ -86,8 +86,17 @@ Install included packages
 Output virtualenv information
 > $ pipenv --venv
 
+### Docker
+[Build the container image and test locally](https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image?tabs=in-process%2Cbash%2Cazure-cli&pivots=programming-language-python#build-the-container-image-and-test-locally)
 
+Build
+> $ docker build --tag <DOCKER_ID>/azurefunctionsimage:v1.0.0 .   
 
+Run 
+> $ docker run -p 8080:80 -it <docker_id>/azurefunctionsimage:v1.0.0 
+
+Run with .env file
+> $ docker run -p 8080:80 --env-file .env -it <docker_id>/azurefunctionsimage:v1.0.0 
 
 
 
