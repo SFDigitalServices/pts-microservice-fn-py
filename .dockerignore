@@ -127,3 +127,4 @@ local.settings.json
 
 # Local files
 local.*
+*.local.*
