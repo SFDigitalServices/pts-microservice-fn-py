@@ -13,12 +13,13 @@ $ curl https://<host>/api/status/http
 ```
 
 ## `api/status/pts`
-Query http status of PTS.
+Query status of PTS connection
 
 ### Query
 Example
 ```
 $ curl https://<host>/api/status/pts
+--header 'ACCESS_KEY: 111111'
 
 {"status": "success", "data": {"message": "200 OK"}}
 ```
@@ -26,11 +27,38 @@ $ curl https://<host>/api/status/pts
 
 ## `api/permit`
 
+POST permit information to PTS
+```
+$ curl --location --request POST 'https://<host>/api/permit'
+--header 'ACCESS_KEY: 111111'
+--header 'Content-Type: application/json'
+--data-raw '{
+    "P_AVS_ADDRESS_ID": 100000,
+    "P_SCOPE_OF_WORK": "TEST",
+    "P_VALUATION": 0,
+    "P_APPLICANT_FIRST_NAME": "FIRST",
+    "P_APPLICANT_LASTINNAME": "LAST",
+    "P_APPLICANT_EMAIL_ADDRESS": "TEST@TEST.TEST",
+    "P_APPLICANT_PHONE_NUMBER": 4151111111,
+    "P_APPLICANT_LICENSE_NUMBER": "000001",
+    "P_APPLICANT_ROLE": "CONTRACTOR",
+    "P_CONTACT1_FIRST_NAME": "FIRST",
+    "P_CONTACT1_LASTINNAME": "LAST",
+    "P_CONTACT1_EMAIL_ADDRESS": "TEST@TEST.TEST",
+    "P_CONTACT1_PHONE_NUMBER": 4151111111,
+    "P_CONTACT1_LICENSE_NUMBER": "ABC",
+    "P_FORMIO": "111111111"
+}'
+
+{ "status": "success", "data": { "out": { "P_STATUS": "OKAY", "P_MSG": null, "P_APP_NUM": "1234567890" } }
+```
+
 
 ## `/api/permit/bluebeam`
 PUT Blubeam Project ID into Permit Application
 ```
-$ curl --request PUT 'https://<host>/api/permit/bluebeam' 
+$ curl --request PUT 'https://<host>/api/permit/bluebeam'
+--header 'ACCESS_KEY: 111111'
 --header 'Content-Type: application/json' 
 --data-raw '{
     "P_APPLICATION_NUMBER": 1234567890,
@@ -47,7 +75,8 @@ GET complaint based on AVS address id
 ### Query
 OKAY
 ```
-$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345' 
+$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345'
+--header 'ACCESS_KEY: 111111'
 
 {"status": "success", "data": {"out": {"P_STATUS": "OKAY", "P_MSG": "No Active Complaints Found"}}}
 ```

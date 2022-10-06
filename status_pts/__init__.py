@@ -8,7 +8,7 @@ import jsend
 import oracledb
 import azure.functions as func
 from requests.models import Response
-from shared_code.common import func_json_response
+from shared_code.common import func_json_response, validate_access
 from shared_code.oracle import get_oracle_connection
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -16,6 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Status PTS processed a request.')
 
     try:
+        validate_access(req)
         headers = {
             "Access-Control-Allow-Origin": "*"
         }

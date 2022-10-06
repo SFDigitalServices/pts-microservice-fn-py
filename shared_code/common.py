@@ -28,7 +28,6 @@ def func_json_response(response, headers=None, json_root="items", json_data=None
 def validate_access(req: func.HttpRequest):
     """ validate access method """
     access_key = os.getenv('ACCESS_KEY')
-    print(access_key)
     verify_key = req.headers.get('x-api-key') if req.headers.get('x-api-key') \
         else req.headers.get('ACCESS_KEY')
     if not access_key or verify_key != access_key:

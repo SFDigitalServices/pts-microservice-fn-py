@@ -7,7 +7,7 @@ import requests
 import jsend
 import azure.functions as func
 from requests.models import Response
-from shared_code.common import func_json_response
+from shared_code.common import func_json_response, validate_access
 from shared_code.oracle import get_oracle_connection
 from shared_code.pts import get_pts_out
 
@@ -19,6 +19,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Permit POST processed a request.')
 
     try:
+        validate_access(req)
         response = Response()
         out = None
         json_root = "message"
