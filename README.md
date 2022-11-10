@@ -53,6 +53,20 @@ $ curl --location --request POST 'https://<host>/api/permit'
 { "status": "success", "data": { "out": { "P_STATUS": "OKAY", "P_MSG": null, "P_APP_NUM": "1234567890" } }
 ```
 
+### External Reference Data
+External references can be pass through by using EXT_ prefix, such as EXT_ID.
+```
+$ curl --location --request POST 'https://<host>/api/permit'
+--header 'ACCESS_KEY: 111111'
+--header 'Content-Type: application/json'
+--data-raw '{
+    ...,
+    EXT_ID: "1234"
+}'
+
+{ "status": "success", "data": { "out": { ..., EXT_ID: "1234" } }
+```
+
 
 ## `/api/permit/bluebeam`
 PUT Blubeam Project ID into Permit Application

@@ -31,6 +31,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             response.status_code = 200
             req_json = req.get_json()
 
+            # initialize out. with EXT_{fields} fields if any
+            out = {key: val for key, val in req_json.items() if key.startswith('EXT_')}
+
             sp_gen_permit = [
                 "P_AVS_ADDRESS_ID",
                 "P_SCOPE_OF_WORK",
@@ -85,7 +88,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 if data_json["P_APP_NUM"].getvalue():
                     response.status_code = 200
                     json_root = "out"
-                    out = get_pts_out(data_json)
+                    out = get_pts_out(data_json, out)
                     out["P_APP_NUM"] = data_json["P_APP_NUM"].getvalue()
 
             print(out)
