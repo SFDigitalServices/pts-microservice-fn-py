@@ -1,4 +1,4 @@
-# microservice-fn-py [![CircleCI](https://badgen.net/circleci/github/SFDigitalServices/pts-microservice-fn-py/main)](https://circleci.com/gh/SFDigitalServices/pts-microservice-fn-py) [![Coverage Status](https://coveralls.io/repos/github/SFDigitalServices/pts-microservice-fn-py/badge.svg?branch=main)](https://coveralls.io/github/SFDigitalServices/pts-microservice-fn-py?branch=main)
+# pts-microservice-fn-py [![CircleCI](https://badgen.net/circleci/github/SFDigitalServices/pts-microservice-fn-py/main)](https://circleci.com/gh/SFDigitalServices/pts-microservice-fn-py) [![Coverage Status](https://coveralls.io/repos/github/SFDigitalServices/pts-microservice-fn-py/badge.svg?branch=main)](https://coveralls.io/github/SFDigitalServices/pts-microservice-fn-py?branch=main)
 Permit Tracking System (PTS) microservice with Azure serverless python function
 
 ## `api/status/http`
@@ -12,7 +12,105 @@ $ curl https://<host>/api/status/http
 {"status": "success", "data": {"message": "200 OK"}}
 ```
 
+## `api/status/pts`
+Query status of PTS connection
+
+### Query
+Example
+```
+$ curl https://<host>/api/status/pts
+--header 'ACCESS_KEY: 111111'
+
+{"status": "success", "data": {"message": "200 OK"}}
+```
+
+
+## `api/permit`
+
+POST permit information to PTS
+```
+$ curl --location --request POST 'https://<host>/api/permit'
+--header 'ACCESS_KEY: 111111'
+--header 'Content-Type: application/json'
+--data-raw '{
+    "P_AVS_ADDRESS_ID": 100000,
+    "P_SCOPE_OF_WORK": "TEST",
+    "P_VALUATION": 0,
+    "P_APPLICANT_FIRST_NAME": "FIRST",
+    "P_APPLICANT_LASTINNAME": "LAST",
+    "P_APPLICANT_EMAIL_ADDRESS": "TEST@TEST.TEST",
+    "P_APPLICANT_PHONE_NUMBER": 4151111111,
+    "P_APPLICANT_LICENSE_NUMBER": "000001",
+    "P_APPLICANT_ROLE": "CONTRACTOR",
+    "P_CONTACT1_FIRST_NAME": "FIRST",
+    "P_CONTACT1_LASTINNAME": "LAST",
+    "P_CONTACT1_EMAIL_ADDRESS": "TEST@TEST.TEST",
+    "P_CONTACT1_PHONE_NUMBER": 4151111111,
+    "P_CONTACT1_LICENSE_NUMBER": "ABC",
+    "P_FORMIO": "111111111"
+}'
+
+{ "status": "success", "data": { "out": { "P_STATUS": "OKAY", "P_MSG": null, "P_APP_NUM": "1234567890" } }
+```
+
+### External Reference Data
+External references can be pass through by using EXT_ prefix, such as EXT_ID.
+```
+$ curl --location --request POST 'https://<host>/api/permit'
+--header 'ACCESS_KEY: 111111'
+--header 'Content-Type: application/json'
+--data-raw '{
+    ...,
+    EXT_ID: "1234"
+}'
+
+{ "status": "success", "data": { "out": { ..., EXT_ID: "1234" } }
+```
+
+
+## `/api/permit/bluebeam`
+PUT Blubeam Project ID into Permit Application
+```
+$ curl --request PUT 'https://<host>/api/permit/bluebeam'
+--header 'ACCESS_KEY: 111111'
+--header 'Content-Type: application/json' 
+--data-raw '{
+    "P_APPLICATION_NUMBER": 1234567890,
+    "P_BLUEBEAM_PROJ_NO": "111-111-111"
+}'
+
+{"status": "success", "data": {"out": {"P_STATUS": "SUCCESS", "P_MSG": "Application has been updated"}}}
+```
+
+
+## `api/complaint`
+GET complaint based on AVS address id
+
+### Query
+OKAY
+```
+$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345'
+--header 'ACCESS_KEY: 111111'
+
+{"status": "success", "data": {"out": {"P_STATUS": "OKAY", "P_MSG": "No Active Complaints Found"}}}
+```
+ERROR
+```
+$ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345' 
+
+{"status": "success", "data": {"out": {"P_STATUS": "ERROR", "P_MSG": "|Active complaint found 100000001|Active complaint found 100000002|Active complaint found 100000003"}}}
+```
+
 ## Deployment notes
+
+### Oracle Instant Client 
+
+#### driver download
+`https://www.oracle.com/cis/database/technologies/instant-client/downloads.html`
+
+#### package dependency
+`libaio1` package is required. If needed install via SSH `apt-get install libaio1`
+
 #### :warning: [Linux Consumption] Successful slot swaps automatically reverted after a few minutes :warning:
 DO NOT USE "SWAP" option until [issue](https://github.com/Azure/azure-functions-host/issues/7336) is resolved.   
 see more at: https://github.com/Azure/azure-functions-host/issues/7336
@@ -31,8 +129,17 @@ Install included packages
 Output virtualenv information
 > $ pipenv --venv
 
+### Docker
+[Build the container image and test locally](https://learn.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image?tabs=in-process%2Cbash%2Cazure-cli&pivots=programming-language-python#build-the-container-image-and-test-locally)
 
+Build
+> $ docker build --tag <DOCKER_ID>/azurefunctionsimage:1.0.0 .   
 
+Run 
+> $ docker run -p 8080:80 -it <docker_id>/azurefunctionsimage:1.0.0 
+
+Run with .env file
+> $ docker run -p 8080:80 --env-file .env -it <docker_id>/azurefunctionsimage:1.0.0 
 
 
 

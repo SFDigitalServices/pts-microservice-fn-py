@@ -1,0 +1,10 @@
+{
+    "status": "success",
+    "data": {
+        "out": {
+            "P_STATUS": "Warning",
+            "P_MSG": "|Contact1 Contractor not found; added as AUTHORIZED AGENT-OTHERS",
+            "P_APP_NUM": "1234567890"
+        }
+    }
+}
