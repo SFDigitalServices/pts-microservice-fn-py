@@ -1,4 +1,6 @@
 [run]
+source =
+    ./
 omit = 
     .venv/*
     tests/*
