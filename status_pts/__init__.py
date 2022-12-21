@@ -23,7 +23,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         response = Response()
         out = None
         if req.get_body() and len(req.get_body()):
-            response = requests.get('https://ifconfig.me')
+            response = requests.get('https://ifconfig.me', timeout=500)
             out = str(response.text)
         else:
             connection = get_oracle_connection()
