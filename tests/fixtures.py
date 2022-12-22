@@ -1,4 +1,5 @@
 """ Test fixtures """
+from unittest.mock import Mock
 import pytest
 
 CLIENT_HEADERS = {
@@ -19,3 +20,9 @@ def mock_env_access_key(monkeypatch):
 def mock_env_no_access_key(monkeypatch):
     """ mock environment with no access key """
     monkeypatch.delenv("ACCESS_KEY", raising=False)
+
+def mock_cursor(val):
+    """ mocking cursor """
+    cursor = Mock()
+    cursor.getvalue.return_value = val
+    return cursor
