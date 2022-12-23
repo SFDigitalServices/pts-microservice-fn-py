@@ -27,7 +27,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             "Access-Control-Allow-Origin": "*"
         }
 
-        if req.get_json() and len(req.get_json()):
+        if req.get_body() and req.get_json() and len(req.get_json()):
             response.status_code = 200
             req_json = req.get_json()
 
