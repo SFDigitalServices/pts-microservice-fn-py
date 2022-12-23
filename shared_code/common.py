@@ -44,10 +44,3 @@ def get_http_response_by_status(status:int):
     content = f"{response.status_code} {client.responses[response.status_code]}"
     response._content = f"\"{content}\"".encode('ascii')
     return response
-
-def combine_fields(fields_list, json_obj, delimiter=","):
-    """ combine fields in json_obj together into a single string """
-    ret_vals = []
-    for field in fields_list:
-        ret_vals.append(json_obj.get(field, None))
-    return delimiter.join(filter(None, ret_vals))
