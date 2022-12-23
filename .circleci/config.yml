@@ -50,7 +50,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            pipenv run python -m pytest --cov --cov-fail-under=0
+            pipenv run python -m pytest --cov --cov-fail-under=100
             pipenv run coveralls
 
 
