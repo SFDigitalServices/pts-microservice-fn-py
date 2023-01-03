@@ -1,0 +1,9 @@
+{
+    "status": "success",
+    "data": {
+        "out": {
+            "P_STATUS": "SUCCESS",
+            "P_MSG": "Application has been updated"
+        }
+    }
+}

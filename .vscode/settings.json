@@ -3,9 +3,10 @@
     "azureFunctions.scmDoBuildDuringDeployment": true,
     "azureFunctions.pythonVenv": ".venv",
     "azureFunctions.projectLanguage": "Python",
-    "azureFunctions.projectRuntime": "~3",
+    "azureFunctions.projectRuntime": "~4",
     "debug.internalConsoleOptions": "neverOpen",
-    "python.pythonPath": ".venv/bin/python",
+    "python.defaultInterpreterPath": ".venv/bin/python",
     "python.linting.pylintPath": ".venv/bin/pylint",
-    "python.linting.pylintEnabled": true
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }

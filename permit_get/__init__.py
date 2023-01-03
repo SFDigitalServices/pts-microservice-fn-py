@@ -8,21 +8,19 @@ import jsend
 
 import azure.functions as func
 from requests.models import Response
-from shared_code.common import func_json_response
+from shared_code.common import func_json_response, validate_access, get_http_response_by_status
 
-def main(_req: func.HttpRequest) -> func.HttpResponse:
+#pylint: disable=unused-argument
+def main(req: func.HttpRequest) -> func.HttpResponse:
     """ main function for permit_get """
     logging.info('Permit GET processed a request.')
 
     try:
-        response = Response()
-        response.status_code = 200
+        validate_access(req)
+        response = get_http_response_by_status(200)
         headers = {
             "Access-Control-Allow-Origin": "*"
         }
-        # pylint: disable=protected-access
-        response._content = b'"200 OK GET"'
-
         return func_json_response(response, headers, "message")
 
     #pylint: disable=broad-except
