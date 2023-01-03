@@ -14,7 +14,7 @@ from shared_code.pts import get_pts_out
 #pylint: disable=too-many-locals
 def main(req: func.HttpRequest) -> func.HttpResponse:
     """
-    main function for permit_post
+    main function for permit_bb_put
     """
     logging.info('Permit Bluebeam PUT processed a request.')
 
