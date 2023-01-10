@@ -43,12 +43,23 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
                 values = cursor.callfunc("pts.sp_rpt_get_filed_permits", oracledb.CURSOR, params)
 
+                existing_permits = []
+                keys = [
+                    "application_number",
+                    "description",
+                    "current_status",
+                    "currrent_date",
+                    "APPLICATION_CREATION_DATE",
+                    "Applicant_name",
+                    "role"]
                 for value in values:
-                    print(''.join(value)) # note: Do something with values
+                    permit = {}
+                    for idx, key in enumerate(keys):
+                        permit[key.upper()] = str(value[idx])
+                    existing_permits.append(permit)
 
-                if values:
-                    json_root = "out"
-                    out = {"out": str(values)}
+                json_root = "out"
+                out = {"P_PERMITS": existing_permits}
 
             print(out)
         else:
