@@ -1,20 +1,32 @@
 """ Test for status/http endpoint """
 # pylint: disable=redefined-outer-name,unused-argument,unused-import
 import json
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 import azure.functions as func
-from tests.fixtures import mock_env_access_key, mock_env_no_access_key, CLIENT_HEADERS
+from tests.fixtures import mock_env_access_key, mock_env_no_access_key, CLIENT_HEADERS, mock_cursor
 from permit_get import main
 
-
-def test_permit_get_function(mock_env_access_key):
+@patch("permit_get.get_oracle_connection")
+def test_permit_get_function(mock_get_oracle_connection, mock_env_access_key):
     """ test_permit_get_function """
+
+    with open('tests/mocks/permit_get_by_address_request.json', mode="rb") as file_handle:
+        mock_params = json.load(file_handle)
+
+    with open('tests/mocks/permit_get_response.json', encoding="UTF-8") as file_handle:
+        mock_oracle_response = json.load(file_handle)
+
+    mock_get_oracle_connection.return_value\
+        .cursor.return_value.__enter__.return_value.callfunc.return_value\
+                = mock_oracle_response
+
     # Construct a mock HTTP request.
     req = func.HttpRequest(
         method='GET',
         headers=CLIENT_HEADERS,
         body=None,
-        url='/api/permit')
+        url='/api/permit',
+        params=mock_params)
 
     # Call the function.
     resp = main(req)
