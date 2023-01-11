@@ -144,6 +144,7 @@ Run with .env file
 
 
 ### Quickstart Reference Guide
+[Azure Gov Cloud Container Registry Quick Start](https://sfgovdt.jira.com/wiki/spaces/DSEng/pages/3329622144/Azure+Gov+Cloud+Container+Registry+Quick+Start)
 [Create a function in Azure with Python using Visual Studio Code](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python)  
 [Create a Python function in Azure from the command line](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-python)
 
