@@ -120,6 +120,10 @@ see more at: https://github.com/Azure/azure-functions-host/issues/7336
 
 ### Get started
 
+Install git-lfs
+This is required because the Oracle Instant Client files are larger.  Not having git-lfs will cause those files to become corrupted when pulling the files locally from github.
+> $ brew install [git-lfs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
+
 Install Pipenv (if needed)
 > $ pip install --user pipenv
 
