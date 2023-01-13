@@ -12,6 +12,8 @@ from requests.models import Response
 from shared_code.common import func_json_response, validate_access, get_http_response_by_status
 from shared_code.oracle import get_oracle_connection
 
+DEFAULT_LIMIT = 5
+
 #pylint: disable=unused-argument, too-many-locals
 def main(req: func.HttpRequest) -> func.HttpResponse:
     """ main function for permit_get """
@@ -52,7 +54,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     "APPLICATION_CREATION_DATE",
                     "Applicant_name",
                     "role"]
-                max_show = req.params.get('limit')
+                max_show = req.params.get('limit', DEFAULT_LIMIT)
                 counter = 0
                 for value in values:
                     permit = {}
