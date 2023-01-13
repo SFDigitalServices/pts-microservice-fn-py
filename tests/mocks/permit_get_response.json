@@ -16,5 +16,32 @@
         "2022-11-23 12:58:47",
         "Christian McCaffrey",
         "CONTRACTOR"
+    ],
+    [
+        "1234567",
+        "None",
+        "TRIAGE",
+        "2022-11-14 14:38:07",
+        "2022-11-14 14:38:07",
+        "George Kittle",
+        "CONTRACTOR"
+    ],
+    [
+        "7654321",
+        "None",
+        "TRIAGE",
+        "2022-11-23 12:58:47",
+        "2022-11-23 12:58:47",
+        "Nick Bosa",
+        "CONTRACTOR"
+    ],
+    [
+        "1234567",
+        "None",
+        "TRIAGE",
+        "2022-11-14 14:38:07",
+        "2022-11-14 14:38:07",
+        "Deebo Samuel",
+        "CONTRACTOR"
     ]
 ]

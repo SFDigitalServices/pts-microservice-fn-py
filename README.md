@@ -53,6 +53,17 @@ $ curl --location --request POST 'https://<host>/api/permit'
 { "status": "success", "data": { "out": { "P_STATUS": "OKAY", "P_MSG": null, "P_APP_NUM": "1234567890" } }
 ```
 
+GET permits based on AVS address id
+
+### Query
+OKAY
+```
+$ curl --request GET 'https://<host>/api/permit?avs_address_id=12345&limit=1'
+--header 'ACCESS_KEY: 111111'
+
+{"status": "success", "data": {"out": {"P_PERMITS": [{"APPLICATION_NUMBER": "12345", "DESCRIPTION": "None", "CURRENT_STATUS": "TRIAGE", "CURRENT_DATE": "2023-01-01 14:21:07", "APPLICATION_CREATION_DATE": "2022-11-14 14:38:22", "APPLLCANT_NAME": "BROCK PURDY", "ROLE": "CONTRACTOR"}]}}}
+```
+
 ### External Reference Data
 External references can be pass through by using EXT_ prefix, such as EXT_ID.
 ```
@@ -101,6 +112,7 @@ $ curl --request GET 'https://<host>/api/complaint?avs_address_id=12345'
 {"status": "success", "data": {"out": {"P_STATUS": "ERROR", "P_MSG": "|Active complaint found 100000001|Active complaint found 100000002|Active complaint found 100000003"}}}
 ```
 
+
 ## Deployment notes
 
 ### Oracle Instant Client 
@@ -119,6 +131,10 @@ see more at: https://github.com/Azure/azure-functions-host/issues/7336
 ## Development
 
 ### Get started
+
+Install git-lfs
+This is required because the Oracle Instant Client files are larger.  Not having git-lfs will cause those files to become corrupted when pulling the files locally from github.
+> $ brew install [git-lfs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage)
 
 Install Pipenv (if needed)
 > $ pip install --user pipenv
@@ -144,6 +160,7 @@ Run with .env file
 
 
 ### Quickstart Reference Guide
+[Azure Gov Cloud Container Registry Quick Start](https://sfgovdt.jira.com/wiki/spaces/DSEng/pages/3329622144/Azure+Gov+Cloud+Container+Registry+Quick+Start)
 [Create a function in Azure with Python using Visual Studio Code](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-vs-code-python)  
 [Create a Python function in Azure from the command line](https://docs.microsoft.com/en-us/azure/azure-functions/create-first-function-cli-python)
 
