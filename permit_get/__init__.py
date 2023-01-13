@@ -52,7 +52,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     "APPLICATION_CREATION_DATE",
                     "Applicant_name",
                     "role"]
-                max_show = 5
+                max_show = req.params.get('limit')
                 counter = 0
                 for value in values:
                     permit = {}
@@ -61,7 +61,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     existing_permits.append(permit)
 
                     counter += 1
-                    if counter >= max_show:
+                    if max_show and counter >= int(max_show):
                         break
 
                 json_root = "out"

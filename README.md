@@ -58,7 +58,7 @@ GET permits based on AVS address id
 ### Query
 OKAY
 ```
-$ curl --request GET 'https://<host>/api/permit?avs_address_id=12345'
+$ curl --request GET 'https://<host>/api/permit?avs_address_id=12345&limit=1'
 --header 'ACCESS_KEY: 111111'
 
 {"status": "success", "data": {"out": {"P_PERMITS": [{"APPLICATION_NUMBER": "12345", "DESCRIPTION": "None", "CURRENT_STATUS": "TRIAGE", "CURRENT_DATE": "2023-01-01 14:21:07", "APPLICATION_CREATION_DATE": "2022-11-14 14:38:22", "APPLLCANT_NAME": "BROCK PURDY", "ROLE": "CONTRACTOR"}]}}}
