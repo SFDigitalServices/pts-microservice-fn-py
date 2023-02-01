@@ -64,7 +64,29 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 "P_STATUS",
                 "P_MSG",
                 "P_APP_NUM",
-                "P_FORMIO"
+                "P_FORMIO",
+                "P_EXISTING_OF_DWELLING_UNITS",
+                "P_EXISTING_NUMBER_OF_STORIES",
+                "P_EXISTING_TYPE_OF_CONSTRUCTION",
+                "P_EXISTING_FIRE_RATING",
+                "P_EXISTING_OCCUPANCY_CODE",
+                "P_EXISTING_BUILDING_USE",
+                "P_PROPOSED_DWELLING_UNITS",
+                "P_PROPOSED_NUMBER_OF_STORIES",
+                "P_PROPOSED_FIRE_RATING",
+                "P_PROPOSED_TYPE_OF_CONSTRUCT",
+                "P_PROPOSED_OCCUPANCY_CODE",
+                "P_PROPOSED_BUILDING_USE",
+                "P_TSD_ABE_NUMBER",
+                "P_UNIT_LEGALIZATION",
+                "P_EXISTING_BASEMENTS",
+                "P_PROPOSED_BASEMENTS",
+                "P_SFUSD_COMPLIANCE",
+                "P_VERTICAL_HORIZONTAL_ADDITION",
+                "P_CHANGE_OF_OCCUPANCY",
+                "P_ADU",
+                "P_MAYORAL_13_01",
+                "P_MAYORAL_17_02"
             ]
 
             connection = get_oracle_connection()
