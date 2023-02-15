@@ -114,6 +114,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     params.append(value)
                 #bool_result = cursor.callfunc("pts.sp_gen_permit", int, params)
                 #print(bool_result)
+                print(f"pts.sp_gen_permit {params}")
                 cursor.callproc("pts.sp_gen_permit", params)
                 print("p_status: " + str(data_json["P_STATUS"].getvalue()))
                 print("p_msg: " + str(data_json["P_MSG"].getvalue()))
