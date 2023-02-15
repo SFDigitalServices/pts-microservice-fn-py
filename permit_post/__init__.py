@@ -86,7 +86,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 "CHANGE_OCCUPANCY",
                 "ADU",
                 "MAYORAL_13_01",
-                "MAYORAL_17_02"
+                "MAYORAL_17_02",
+                "P_APPLICANT_ADDRESS",
+                "P_APPLICANT_CITY",
+                "P_APPLICANT_STATE",
+                "P_APPLICANT_ZIP",
+                "P_CONTACT1_ADDRESS",
+                "P_CONTACT1_CITY",
+                "P_CONTACT1_STATE",
+                "P_CONTACT1_ZIP",
+                "P_CONTACT2_ADDRESS",
+                "P_CONTACT2_CITY",
+                "P_CONTACT2_STATE",
+                "P_CONTACT2_ZIP"
             ]
 
             connection = get_oracle_connection()
