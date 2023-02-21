@@ -36,5 +36,17 @@
     "CHANGE_OCCUPANCY": "Y",
     "ADU": "Y",
     "MAYORAL_13_01": "Y",
-    "MAYORAL_17_02": "Y"
+    "MAYORAL_17_02": "Y",
+    "P_APPLICANT_ADDRESS": "123 Main St.",
+    "P_APPLICANT_CITY": "San Francisco",
+    "P_APPLICANT_STATE": "CA",
+    "P_APPLICANT_ZIP": "12345",
+    "P_CONTACT1_ADDRESS": "1600 Pennsylvania Ave",
+    "P_CONTACT1_CITY": "Washington",
+    "P_CONTACT1_STATE": "DC",
+    "P_CONTACT1_ZIP": "20500",
+    "P_CONTACT2_ADDRESS": "1 Warriors Way",
+    "P_CONTACT2_CITY": "San Francisco",
+    "P_CONTACT2_STATE": "CA",
+    "P_CONTACT2_ZIP": "94158"
 }
