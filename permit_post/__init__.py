@@ -125,6 +125,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     json_root = "out"
                     out = get_pts_out(data_json, out)
                     out["P_APP_NUM"] = data_json["P_APP_NUM"].getvalue()
+                elif str(data_json["P_STATUS"].getvalue()) == "ERROR":
+                    raise Exception(str(data_json["P_MSG"].getvalue()))
 
             print(out)
         else:
