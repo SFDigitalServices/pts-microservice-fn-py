@@ -120,13 +120,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 print("p_msg: " + str(data_json["P_MSG"].getvalue()))
                 print("p_app_num: " + str(data_json["P_APP_NUM"].getvalue()))
 
+                json_root = "out"
+                out = get_pts_out(data_json, out)
                 if data_json["P_APP_NUM"].getvalue():
                     response.status_code = 200
-                    json_root = "out"
-                    out = get_pts_out(data_json, out)
                     out["P_APP_NUM"] = data_json["P_APP_NUM"].getvalue()
                 elif str(data_json["P_STATUS"].getvalue()) == "ERROR":
-                    raise Exception(str(data_json["P_MSG"].getvalue()))
+                    raise Exception(str(data_json["P_MSG"].getvalue()), json_root, out)
 
             print(out)
         else:
@@ -141,6 +141,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as err:
         logging.error("Status HTTP error occurred: %s", traceback.format_exc())
 
-        msg_error = f"This endpoint encountered an error. {err}"
-        func_response = json.dumps(jsend.error(msg_error))
+        if len(err.args) == 3:
+            # pylint: disable=unbalanced-tuple-unpacking
+            msg, json_root, out = err.args
+            msg_error = f"This endpoint encountered an error. {msg}"
+            func_response = json.dumps(jsend.error(msg_error, data={json_root: out}))
+        else:
+            msg_error = f"This endpoint encountered an error. {err}"
+            func_response = json.dumps(jsend.error(msg_error))
         return func.HttpResponse(func_response, status_code=500)
