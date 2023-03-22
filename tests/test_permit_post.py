@@ -71,6 +71,39 @@ def test_permit_post_function_address_not_found(mock_get_oracle_connection, mock
     # Check the output.
     assert resp_json['status'] == 'error'
 
+@patch("permit_post.get_oracle_connection")
+def test_permit_post_oracle_error(mock_get_oracle_connection, mock_env_access_key):
+    """ test permit_post when oracle throws an error """
+
+    # mock body
+    with open('tests/mocks/permit_post_request.json', mode="rb") as file_handle:
+        mock_body = file_handle.read()
+
+    mock_side_effect = map(mock_cursor, sp_mock.error_response.values())
+    mock_get_oracle_connection.return_value\
+        .cursor.return_value.__enter__.return_value.var.side_effect\
+                = Mock(side_effect=mock_side_effect)
+    mock_get_oracle_connection.return_value\
+        .cursor.return_value.__enter__.return_value.callproc.side_effect\
+                = Exception("oracle error")
+
+    # Construct a mock HTTP request.
+    req = func.HttpRequest(
+        method='POST',
+        headers=CLIENT_HEADERS,
+        body=mock_body,
+        url='/api/permit')
+
+    # Call the function.
+    resp = main(req)
+    # print response body
+    print(resp.get_body())
+    # loads response body as json
+    resp_json = json.loads(resp.get_body())
+
+    # Check the output.
+    assert resp_json['status'] == 'error'
+
 def test_permit_post_function_other(mock_env_access_key):
     """ test_permit_post_function_other """
     # Construct a mock HTTP request.

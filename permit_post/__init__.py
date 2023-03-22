@@ -18,22 +18,28 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     """
     logging.info('Permit POST processed a request.')
 
+
     try:
         validate_access(req)
-        response = Response()
-        out = None
-        json_root = "message"
-        headers = {
-            "Access-Control-Allow-Origin": "*"
-        }
+    except ValueError as err:
+        json_err = json.dumps(jsend.error(str(err)))
+        return func.HttpResponse(json_err, status_code=403)
 
-        if req.get_body() and req.get_json() and len(req.get_json()):
-            response.status_code = 200
-            req_json = req.get_json()
+    response = Response()
+    response.status_code = 200
+    out = None
+    headers = {
+        "Access-Control-Allow-Origin": "*"
+    }
 
-            # initialize out. with EXT_{fields} fields if any
-            out = {key: val for key, val in req_json.items() if key.startswith('EXT_')}
+    if req.get_body() and req.get_json() and len(req.get_json()):
 
+        req_json = req.get_json()
+
+        # initialize out. with EXT_{fields} fields if any
+        out = {key: val for key, val in req_json.items() if key.startswith('EXT_')}
+
+        try:
             sp_gen_permit = [
                 "P_AVS_ADDRESS_ID",
                 "P_SCOPE_OF_WORK",
@@ -120,33 +126,33 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 print("p_msg: " + str(data_json["P_MSG"].getvalue()))
                 print("p_app_num: " + str(data_json["P_APP_NUM"].getvalue()))
 
-                json_root = "out"
                 out = get_pts_out(data_json, out)
                 if data_json["P_APP_NUM"].getvalue():
                     response.status_code = 200
                     out["P_APP_NUM"] = data_json["P_APP_NUM"].getvalue()
                 elif str(data_json["P_STATUS"].getvalue()) == "ERROR":
-                    raise Exception(str(data_json["P_MSG"].getvalue()), json_root, out)
+                    raise Exception(str(data_json["P_MSG"].getvalue()), out)
 
             print(out)
-        else:
-            response.status_code = 200
 
-            # pylint: disable=protected-access
-            response._content = b'"200 OK POST"'
+        #pylint: disable=broad-except
+        except Exception as err:
+            logging.error("Status HTTP error occurred: %s", traceback.format_exc())
 
-        return func_json_response(response, headers, json_root, out)
+            if len(err.args) == 2:
+                # pylint: disable=unbalanced-tuple-unpacking
+                msg, out = err.args
+                msg_error = f"This endpoint encountered an error. {msg}"
+            else:
+                out.update({
+                    "P_STATUS": "ERROR",
+                    "P_MSG": str(err)
+                })
+                msg_error = f"This endpoint encountered an error. {err}"
 
-    #pylint: disable=broad-except
-    except Exception as err:
-        logging.error("Status HTTP error occurred: %s", traceback.format_exc())
+            func_response = json.dumps(jsend.error(msg_error, data={"out": out}))
+            return func.HttpResponse(func_response, status_code=500)
+    else:
+        response._content = b'"200 OK POST"' # pylint: disable=protected-access
 
-        if len(err.args) == 3:
-            # pylint: disable=unbalanced-tuple-unpacking
-            msg, json_root, out = err.args
-            msg_error = f"This endpoint encountered an error. {msg}"
-            func_response = json.dumps(jsend.error(msg_error, data={json_root: out}))
-        else:
-            msg_error = f"This endpoint encountered an error. {err}"
-            func_response = json.dumps(jsend.error(msg_error))
-        return func.HttpResponse(func_response, status_code=500)
+    return func_json_response(response, headers, "message", out)
