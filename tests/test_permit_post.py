@@ -38,7 +38,7 @@ def test_permit_post_function(mock_get_oracle_connection, mock_env_access_key):
     resp_json = json.loads(resp.get_body())
 
     # Check the output.
-    assert resp_json["status"] == "success"
+    verify_response_json(resp_json, "success")
 
 
 @patch("permit_post.get_oracle_connection")
@@ -69,7 +69,7 @@ def test_permit_post_function_address_not_found(
     resp_json = json.loads(resp.get_body())
 
     # Check the output.
-    assert resp_json["status"] == "error"
+    verify_response_json(resp_json, "error")
 
 
 @patch("permit_post.get_oracle_connection")
@@ -101,12 +101,7 @@ def test_permit_post_oracle_error(mock_get_oracle_connection, mock_env_access_ke
     resp_json = json.loads(resp.get_body())
 
     # Check the output.
-    assert resp_json["status"] == "error"
-    assert "data" in resp_json
-    assert "out" in resp_json["data"]
-    assert (
-        resp_json["data"]["out"]["EXT_ID"] == "123ABC"
-    )  # found in permit_post_request.json
+    verify_response_json(resp_json, "error")
 
 
 def test_permit_post_function_other(mock_env_access_key):
@@ -137,3 +132,16 @@ def test_permit_post_function_request_error():
         print(resp_json)
         # Check the output.
         assert resp_json["status"] == "error"
+
+
+def verify_response_json(resp_json, status=None):
+    """
+    check that the response json is formatted correctly
+    """
+    if status is not None:
+        assert resp_json["status"] == status
+    assert "data" in resp_json
+    assert "out" in resp_json["data"]
+    assert (
+        resp_json["data"]["out"]["EXT_ID"] == "123ABC"
+    )  # found in permit_post_request.json
